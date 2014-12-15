@@ -1,5 +1,5 @@
 {
-  "name": "react-table-freezer",
+  "name": "reactable",
   "version": "0.9.3",
   "description": "Fast, flexible, simple data tables in React",
   "main": "./build/reactable.js",
