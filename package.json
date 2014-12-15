@@ -1,11 +1,11 @@
 {
-  "name": "reactable",
+  "name": "react-table-freezer",
   "version": "0.9.3",
   "description": "Fast, flexible, simple data tables in React",
   "main": "./build/reactable.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/glittershark/reactable.git"
+    "url": "https://github.com/glittershark/react-table-freezer.git"
   },
   "bugs": {
     "url" : "http://github.com/glittershark/reactable/issues",
@@ -23,6 +23,9 @@
   "peerDependencies": {
     "react": "*"
   },
+  "dependencies": {
+    "underscore": "*"
+  },
   "devDependencies": {
     "grunt": "^0.4.4",
     "grunt-cli": "^0.1.13",
@@ -37,5 +40,5 @@
     "karma-spec-reporter": "0.0.12",
     "mocha": "^1.18.2"
   },
-  "keywords": ["react-component", "react", "table", "data-tables"]
+  "keywords": ["react-component", "react", "table", "data-tables", "frozen", "pane"]
 }

@@ -15,6 +15,7 @@ module.exports = function(config) {
         'bower_components/react/react-with-addons.js',
         'bower_components/chai/chai.js',
         'bower_components/chai-jquery/chai-jquery.js',
+        'bower_components/underscore/underscore-min.js',
         'build/reactable.js',
         'build/tests/*.js',
     ],
@@ -59,5 +60,3 @@ module.exports = function(config) {
     singleRun: true
   });
 };
-
-
