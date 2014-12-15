@@ -9,52 +9,15 @@
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
+        this._ = require("underscore");
         module.exports = factory(require('react'));
+
     } else {
         // Browser globals (root is window)
         root.Reactable = factory(root.React);
     }
 }(this, function (React) {
     var exports = {};
-
-    // Array.prototype.map polyfill - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map#Polyfill
-    // Production steps of ECMA-262, Edition 5, 15.4.4.19
-    // Reference: http://es5.github.io/#x15.4.4.19
-    if (!Array.prototype.map) {
-
-        Array.prototype.map = function(callback, thisArg) {
-            var T, A, k;
-
-            if (this == null) {
-                throw new TypeError(" this is null or not defined");
-            }
-
-            var O = Object(this);
-            var len = O.length >>> 0;
-
-            if (typeof callback !== "function") {
-                throw new TypeError(callback + " is not a function");
-            }
-
-            if (arguments.length > 1) {
-                T = thisArg;
-            }
-
-            A = new Array(len);
-            k = 0;
-
-            while (k < len) {
-                var kValue, mappedValue;
-                if (k in O) {
-                    kValue = O[k];
-                    mappedValue = callback.call(T, kValue, k, O);
-                    A[k] = mappedValue;
-                }
-                k++;
-            }
-            return A;
-        };
-    }
 
     // Array.prototype.indexOf polyfill for IE8
     if (!Array.prototype.indexOf) {
@@ -76,66 +39,30 @@
           };
     }
 
-    // Array.prototype.find polyfill - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
-    if (!Array.prototype.find) {
-        Object.defineProperty(Array.prototype, 'find', {
-            enumerable: false,
-            configurable: true,
-            writable: true,
-            value: function(predicate) {
-                if (this == null) {
-                    throw new TypeError('Array.prototype.find called on null or undefined');
-                }
-                if (typeof predicate !== 'function') {
-                    throw new TypeError('predicate must be a function');
-                }
-                var list = Object(this);
-                var length = list.length >>> 0;
-                var thisArg = arguments[1];
-                var value;
-
-                for (var i = 0; i < length; i++) {
-                    if (i in list) {
-                        value = list[i];
-                        if (predicate.call(thisArg, value, i, list)) {
-                            return value;
-                        }
-                    }
-                }
-                return undefined;
-            }
-        });
-    }
-
-    if (!Array.isArray) {
-        Array.isArray = function (value) {
-            return Object.prototype.toString.call(value) === '[object Array]';
-        };
-    }
 
     if (!Object.assign) {
-        Object.defineProperty(Object, "assign", {
-            enumerable: false,
-            configurable: true,
-            writable: true,
-            value: function(target, firstSource) {
-                "use strict";
-                if (target === undefined || target === null)
+      Object.defineProperty(Object, "assign", {
+        enumerable: false,
+        configurable: true,
+        writable: true,
+        value: function(target, firstSource) {
+          "use strict";
+          if (target === undefined || target === null)
             throw new TypeError("Cannot convert first argument to object");
-        var to = Object(target);
-        for (var i = 1; i < arguments.length; i++) {
+          var to = Object(target);
+          for (var i = 1; i < arguments.length; i++) {
             var nextSource = arguments[i];
             if (nextSource === undefined || nextSource === null) continue;
             var keysArray = Object.keys(Object(nextSource));
             for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
-                var nextKey = keysArray[nextIndex];
-                var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
-                if (desc !== undefined && desc.enumerable) to[nextKey] = nextSource[nextKey];
+              var nextKey = keysArray[nextIndex];
+              var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+              if (desc !== undefined && desc.enumerable) to[nextKey] = nextSource[nextKey];
             }
+          }
+          return to;
         }
-        return to;
-            }
-        });
+      });
     }
 
     function Unsafe(content) {
@@ -299,10 +226,9 @@
 
             if (
                 this.props.data &&
-                this.props.columns &&
-                typeof this.props.columns.map === 'function'
+                this.props.columns
             ) {
-                children = children.concat(this.props.columns.map(function(column, i) {
+                children = children.concat(_.map(this.props.columns, function(column, i) {
                     if (this.props.data.hasOwnProperty(column.key)) {
                         return Td({column: column, key: column.key}, this.props.data[column.key]);
                     } else {
@@ -469,7 +395,7 @@
         // Translate a user defined column array to hold column objects if strings are specified
         // (e.g. ['column1'] => [{key: 'column1', label: 'column1'}])
         translateColumnsArray: function(columns) {
-            return columns.map(function(column, i) {
+            return _.map(columns, function(column, i) {
                 if (typeof(column) === 'string') {
                     return {
                         key:   column,
@@ -747,9 +673,9 @@
             }
 
             // Build up table rows
-            if (this.data && typeof this.data.map === 'function') {
+            if (this.data) {
                 // Build up the columns array
-                children = children.concat(this.data.map(function(data, i) {
+                children = children.concat(_.map(this.data, function(data, i) {
                     // Loop through the keys in each data row and build a td for it
                     for (var k in data) {
                         if (data.hasOwnProperty(k)) {
@@ -763,7 +689,7 @@
 
                                 // Only add a new column if it doesn't already exist in the columns array
                                 if (
-                                    columns.find(function(element) {
+                                    _.find(columns, function(element) {
                                         return element.key === column.key
                                     }) === undefined
                                 ) {
@@ -789,7 +715,7 @@
             var filtering = false;
             if (
                 this.props.filterable &&
-                Array.isArray(this.props.filterable) &&
+                _.isArray(this.props.filterable) &&
                 this.props.filterable.length > 0
             ) {
                 filtering = true;
