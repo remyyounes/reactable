@@ -10,7 +10,6 @@
     // only CommonJS-like environments that support module.exports,
     // like Node.
     this._ = require("underscore");
-    this.Td = require("./Td.jsx");
     module.exports = factory(require('react'));
 
   } else {

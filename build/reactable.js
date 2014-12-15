@@ -281,7 +281,7 @@
               }
 
               Ths.push(
-                  Th({className: sortClass, key: index, onClick: this.handleClickTh.bind(this, column)}, 
+                  Th({className: sortClass, key: index, onClick: this.handleClickTh.bind(this, column)},
                       column.label
                   )
               );
@@ -321,10 +321,10 @@
       },
       render: function() {
           return (
-              React.DOM.input({type: "text", 
-                     className: "reactable-filter-input", 
-                     value: this.props.value, 
-                     onKeyUp: this.onChange, 
+              React.DOM.input({type: "text",
+                     className: "reactable-filter-input",
+                     value: this.props.value,
+                     onKeyUp: this.onChange,
                      onChange: this.onChange})
           );
       }
@@ -337,9 +337,9 @@
           }
 
           return (
-              React.DOM.tr({className: "reactable-filterer"}, 
-                  React.DOM.td({colSpan: this.props.colSpan}, 
-                      FiltererInput({onFilter: this.props.onFilter, 
+              React.DOM.tr({className: "reactable-filterer"},
+                  React.DOM.td({colSpan: this.props.colSpan},
+                      FiltererInput({onFilter: this.props.onFilter,
                                      value: this.props.value})
                   )
               )
@@ -370,7 +370,7 @@
               }
 
               pageButtons.push(
-                  React.DOM.a({className: className, key: i, 
+                  React.DOM.a({className: className, key: i,
                      // create function to get around for-loop closure issue
                      onClick: (function(pageNum) {
                          return function() {
@@ -381,9 +381,9 @@
           }
 
           return (
-              React.DOM.tbody({className: "reactable-pagination"}, 
-                  React.DOM.tr(null, 
-                      React.DOM.td({colSpan: this.props.colSpan}, 
+              React.DOM.tbody({className: "reactable-pagination"},
+                  React.DOM.tr(null,
+                      React.DOM.td({colSpan: this.props.colSpan},
                           pageButtons
                       )
                   )
@@ -755,24 +755,24 @@
 
           return React.DOM.table(Object.assign({}, props), [
               (columns && columns.length > 0
-                  ? Thead({columns: columns, 
-                           filtering: filtering, 
-                           onFilter: this.filterBy, 
-                           currentFilter: this.state.filter, 
-                           sort: this.state.currentSort, 
-                           sortableColumns: this._sortable, 
-                           onSort: this.onSort, 
+                  ? Thead({columns: columns,
+                           filtering: filtering,
+                           onFilter: this.filterBy,
+                           currentFilter: this.state.filter,
+                           sort: this.state.currentSort,
+                           sortableColumns: this._sortable,
+                           onSort: this.onSort,
                            key: "thead"})
                   : null
               ),
-              React.DOM.tbody({className: "reactable-data", key: "tbody"}, 
+              React.DOM.tbody({className: "reactable-data", key: "tbody"},
                   currentChildren
               ),
               (pagination === true
-                  ? Paginator({colSpan: columns.length, 
-                               numPages: numPages, 
-                               currentPage: currentPage, 
-                               onPageChange: this.onPageChange, 
+                  ? Paginator({colSpan: columns.length,
+                               numPages: numPages,
+                               currentPage: currentPage,
+                               onPageChange: this.onPageChange,
                                key: "paginator"})
                   : null
               )
