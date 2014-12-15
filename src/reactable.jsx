@@ -9,7 +9,6 @@
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
-    this._ = require("underscore");
     module.exports = factory(require('react'));
 
   } else {
